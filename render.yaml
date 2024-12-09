@@ -4,4 +4,4 @@ services:
     env: python
     plan: free
     buildCommand: ""
-    startCommand: gunicorn app:server
+    startCommand: gunicorn app1:server
