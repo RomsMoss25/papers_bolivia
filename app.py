@@ -5,9 +5,9 @@ import pandas as pd
 import plotly.express as px
 import dash_bootstrap_components as dbc
 
-# Cargar los datos reales desde el archivo Excel
-file_path = 'Papers_proyectos STEM .xlsx'
-df_real_data = pd.read_excel(file_path)
+# Cargar los datos reales desde el archivo CSV
+file_path = '/Users/romi_1/Downloads/Papers_proyectos_STEM.csv'
+df_real_data = pd.read_csv(file_path)
 
 # Limpiar los nombres de las columnas (opcional, elimina espacios extra)
 df_real_data.columns = df_real_data.columns.str.strip()
