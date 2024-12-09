@@ -172,6 +172,8 @@ def update_visualizations(n_s, n_t, n_e, n_m):
     bubble_fig.update_layout(template="simple_white", xaxis_title="Categoría", yaxis_title="Impacto")
 
     return gallery_items, bubble_fig
+    
+server = app.server
 
 
 # Ejecutar la app
