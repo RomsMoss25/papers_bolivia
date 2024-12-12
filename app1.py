@@ -6,7 +6,7 @@ import plotly.express as px
 import dash_bootstrap_components as dbc
 
 # Cargar los datos reales desde el archivo CSV
-file_path = '/Users/romi_1/Downloads/Papers_proyectos STEM  (1).csv'
+file_path = 'Papers_proyectos STEM  (1).csv'
 df_real_data = pd.read_csv(file_path)
 
 # Limpiar los nombres de las columnas (opcional, elimina espacios extra)
