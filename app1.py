@@ -47,19 +47,7 @@ area_colors = {
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Dashboard Mujeres STEM"
 
-# Layout del dashboard
-app.layout = dbc.Container(fluid=True, children=[
-    # Botón de inicio (casita)
-    dbc.Row([
-        dbc.Col(
-            dbc.Button(
-                html.Span("🏠 Volver al Inicio", style={"margin-left": "5px"}),
-                href="/",  # Cambia esto a la URL del inicio
-                color="light",
-                className="mt-3"
-            ), width="auto"
-        )
-    ], justify="start", style={"padding": "10px"}),
+
 
     # Encabezado con íconos interactivos
     dbc.Row([
