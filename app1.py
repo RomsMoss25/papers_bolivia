@@ -9,7 +9,7 @@ import dash_bootstrap_components as dbc
 file_path = 'Papers_proyectos STEM  (1).csv'
 df_real_data = pd.read_csv(file_path)
 
-# Limpiar los nombres de las columnas
+# Limpiar los nombres de las columnas (opcional, elimina espacios extra)
 df_real_data.columns = df_real_data.columns.str.strip()
 
 # Transformar los datos reales al formato del dashboard
@@ -47,8 +47,8 @@ area_colors = {
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Dashboard Mujeres STEM"
 
-
-
+# Layout del dashboard
+app.layout = dbc.Container(fluid=True, children=[
     # Encabezado con íconos interactivos
     dbc.Row([
         dbc.Col(html.Div([
