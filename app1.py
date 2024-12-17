@@ -48,7 +48,7 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Dashboard Mujeres STEM"
 
 
- #Layout del dashboard
+ # Layout del dashboard
 app.layout = dbc.Container(fluid=True, children=[
     # Botón "Volver al Inicio" en la parte superior
     dbc.Row([
@@ -64,8 +64,6 @@ app.layout = dbc.Container(fluid=True, children=[
         ], width=12, style={"text-align": "left"})
     ]),
 
-# Layout del dashboard
-app.layout = dbc.Container(fluid=True, children=[
     # Encabezado con íconos interactivos
     dbc.Row([
         dbc.Col(html.Div([
@@ -130,6 +128,7 @@ app.layout = dbc.Container(fluid=True, children=[
         dbc.Col(dcc.Graph(id='bubble_chart'), width=12)
     ]),
 ], style={'background-color': '#f8f9fa', 'padding': '20px'})
+
 
 
 # Callback para manejar los clics en las letras y actualizar la visualización
