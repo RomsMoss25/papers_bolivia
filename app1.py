@@ -89,6 +89,17 @@ app.layout = dbc.Container(fluid=True, children=[
         ], style={'text-align': 'center', 'margin': '30px 0'})
         )
     ]),
+    dbc.Row([
+    dbc.Col([
+        dbc.Button(
+            html.Span("🏠 Volver al Inicio", style={"margin-left": "5px"}),
+            href="https://stem-bolivia.onrender.com",  # URL de la página central
+            color="light",
+            className="mt-3"
+        )
+    ], width="auto", style={"text-align": "center"})
+])
+
 
     # Texto dinámico
     dbc.Row([
