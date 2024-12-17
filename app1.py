@@ -47,7 +47,8 @@ area_colors = {
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.title = "Dashboard Mujeres STEM"
 
-# Layout del dashboard
+
+ #Layout del dashboard
 app.layout = dbc.Container(fluid=True, children=[
     # Botón "Volver al Inicio" en la parte superior
     dbc.Row([
@@ -63,6 +64,8 @@ app.layout = dbc.Container(fluid=True, children=[
         ], width=12, style={"text-align": "left"})
     ]),
 
+# Layout del dashboard
+app.layout = dbc.Container(fluid=True, children=[
     # Encabezado con íconos interactivos
     dbc.Row([
         dbc.Col(html.Div([
@@ -141,23 +144,70 @@ app.layout = dbc.Container(fluid=True, children=[
      Input('btn-M', 'n_clicks')]
 )
 def update_visualizations(n_stem, n_s, n_t, n_e, n_m):
+    # Determinar qué botón fue clickeado
     ctx = dash.callback_context
-    selected_area = {
-        "btn-STEM": "STEM",
-        "btn-S": "Ciencia",
-        "btn-T": "Tecnología",
-        "btn-E": "Ingeniería",
-        "btn-M": "Matemáticas"
-    }.get(ctx.triggered[0]['prop_id'].split('.')[0], "STEM")
+    if not ctx.triggered:
+        selected_area = "STEM"  # Valor por defecto
+    else:
+        button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+        selected_area = {
+            "btn-STEM": "STEM",
+            "btn-S": "Ciencia",
+            "btn-T": "Tecnología",
+            "btn-E": "Ingeniería",
+            "btn-M": "Matemáticas"
+        }.get(button_id, "STEM")
 
-    filtered_df = df if selected_area == "STEM" else df[df['Área STEM'].str.strip() == selected_area]
-    gallery_items = [dbc.Card([dbc.CardBody([html.H5(row['Título'], className="card-title")])]) for _, row in filtered_df.iterrows()]
-    bubble_fig = px.scatter(filtered_df, x="Categoría", y="Impacto", size="Colaboradoras", color="Área STEM")
+    # Filtrar datos por área STEM
+    if selected_area == "STEM":
+        # Filtrar datos que tienen "STEM" en Área STEM
+        filtered_df = df[df['Área STEM'].str.strip() == "STEM"]
+        bubble_df = df  # Mostrar todas las categorías en el gráfico de burbujas
+    else:
+        # Filtrar por Área STEM específica
+        filtered_df = df[df['Área STEM'].str.strip() == selected_area]
+        bubble_df = filtered_df
 
-    return gallery_items, bubble_fig, f"Proyectos en el área de {selected_area}"
+    # Galería
+    gallery_items = []
+    for _, row in filtered_df.iterrows():
+        area_color = area_colors.get(row['Área STEM'].strip(), area_colors["Sin Especificar"])
+        card = dbc.Card(
+            [
+                dbc.CardBody([
+                    html.H5(row['Título'], className="card-title", style={'color': area_color}),
+                    html.P(f"Área STEM: {row['Área STEM']}", className="card-text text-secondary"),
+                    html.P(f"Categoría: {row['Categoría']}", className="card-text text-secondary"),
+                    html.P(f"Año: {row['Año']}", className="card-text text-secondary"),
+                    dbc.Button("Ver más", href=row['Enlace'], target="_blank", color="primary", className="mt-2")
+                ])
+            ],
+            style={"width": "100%", "box-shadow": "0 4px 6px rgba(0, 0, 0, 0.1)"}
+        )
+        gallery_items.append(card)
+
+    # Gráfico de burbujas
+    bubble_fig = px.scatter(
+        bubble_df,
+        x="Categoría",
+        y="Impacto",
+        size="Colaboradoras",
+        color="Área STEM",
+        color_discrete_map=area_colors,
+        hover_name="Título",
+        title=f"Impacto en {selected_area}",
+    )
+    bubble_fig.update_layout(template="simple_white", xaxis_title="Categoría", yaxis_title="Impacto")
+
+    # Texto dinámico
+    dynamic_text = f"Proyectos en el área de {selected_area}"
+
+    return gallery_items, bubble_fig, dynamic_text
 
 server = app.server
 
+# Ejecutar la app
 if __name__ == '__main__':
     app.run_server(debug=True, port=8080)
+
 
